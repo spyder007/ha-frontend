@@ -1,0 +1,74 @@
+## Build Pipeline - Build, publish container image, and update helmfile config
+resources:
+  repositories:
+    - repository: templates
+      type: github
+      endpoint: spydersoft-gh
+      name: spydersoft-consulting/azure-devops-templates
+    - repository: helmfileconfig
+      type: github
+      endpoint: spydersoft-gh
+      name: spyder007/ha-helm-config
+
+trigger:
+  tags:
+    include:
+    - "*"
+  branches:
+    include:
+      - main
+      - feature/*
+  paths:
+    exclude:
+      - README.md
+
+pr:
+  branches:
+    include:
+      - main
+
+extends:
+  template: pipelines/build-bff/v1.yml@templates
+  parameters:
+    gitVersionSpec: '6.0.x'
+    buildProject: src/Spydersoft.Home.Frontend/Spydersoft.Home.Frontend.csproj
+    publishProject: src/Spydersoft.Home.Frontend/Spydersoft.Home.Frontend.csproj
+    uiSourceDirectory: src/ha-client
+    artifactName: ha-frontend
+    netCoreVersion: "8.0.x"
+    artifactZipName: Spydersoft.Home.Frontend
+    dockerImageName: spyder007/ha-frontend
+    dockerFilePath: Dockerfile
+    containerRegistryName: github-spydersoft-docker
+    imageTagVariableName: frontend
+    helmfileRepoName: helmfileconfig
+    externalFeedCredentials: SpydersoftGithub
+    #if it's a PR or build from main, don't update helmfile config or build/publish docker image
+    ${{ if or(eq(variables['Build.Reason'], 'PullRequest'), eq(variables['Build.SourceBranchName'], 'main')) }}:
+      updateHelmConfig: false
+      buildAndPublishDockerImage: false
+    ${{ else }}:
+      updateHelmConfig: true
+      buildAndPublishDockerImage: true
+    bffExecuteSonar: true
+    bffExecuteTests: true
+    bffTestProjects: "**/*.Tests/*.csproj"
+    bffUseSonarCloud: true
+    bffSonarCloudOrganization: spydersoft-consulting
+    bffSonarEndpointName: sonarcloud-spydersoft
+    bffSonarProjectName: spydersoft-consulting_techradar-bff
+    bffSonarProjectKey: spydersoft-consulting_techradar-bff
+    bffSonarExtraProperties: |
+      sonar.projectKey=spydersoft-consulting_techradar-bff
+      sonar.sources=**/src/Spydersoft.Home.Frontend/
+      sonar.tests=**/src/Spydersoft.Home.Frontend.Tests/
+      sonar.exclusions=**/src/ha-client/**/*
+      sonar.scanner.scanAll=false
+
+    uiSonarEndpointName: sonarcloud-spydersoft
+    uiSonarCloudOrganization: spydersoft-consulting
+    uiExecuteSonar: true
+    uiUseSonarCloud: true
+    uiSonarConfigFile: react-sonar-project.properties
+    uiCodeCoverageFile: src/ha-client/output/coverage/cobertura-coverage.xml
+    uiUnitTestFile: src/ha-client/output/test/junit.xml
