@@ -1,13 +1,16 @@
-import { AxiosError, AxiosPromise, AxiosResponse } from "axios";
+import axios, { AxiosError, AxiosPromise, AxiosResponse } from "axios";
 import { getApiConfig } from "./Config";
-import axios from "axios";
 
-export const callUnifiApi = <T>(fn: (baseUrl: string) => AxiosPromise<T>): AxiosPromise<T> => {
+export const callUnifiApi = <T>(
+  fn: (baseUrl: string) => AxiosPromise<T>,
+): AxiosPromise<T> => {
   const baseUrl = `${window.origin}${getApiConfig("unifi")}`;
   return fn(baseUrl);
 };
 
-export const callBff = <T>(fn: (baseUrl: string) => AxiosPromise<T>): AxiosPromise<T> => {
+export const callBff = <T>(
+  fn: (baseUrl: string) => AxiosPromise<T>,
+): AxiosPromise<T> => {
   const baseUrl = `${window.origin}${getApiConfig("bff")}`;
   return fn(baseUrl);
 };
@@ -16,7 +19,9 @@ export interface IValidationErrorResult {
   errors: Record<string, string[]>;
 }
 
-export const getErrorMessages = (e: Error | AxiosError<IValidationErrorResult>): Record<string, string[]> => {
+export const getErrorMessages = (
+  e: Error | AxiosError<IValidationErrorResult>,
+): Record<string, string[]> => {
   if (axios.isAxiosError(e)) {
     const aError = e as AxiosError<IValidationErrorResult>;
     if (aError.response?.status === 400) {
@@ -26,8 +31,8 @@ export const getErrorMessages = (e: Error | AxiosError<IValidationErrorResult>):
   }
   // Validation errors, show message (e.response.data.errors)
   const error: Record<string, string[]> = {
-    message: [(e as Error).message],
-    name: [(e as Error).name],
+    message: [e.message],
+    name: [e.name],
   };
   return error;
 };
@@ -40,7 +45,7 @@ export const handleApiError = (
 };
 
 export function checkCommunicationError<T>(
-  response: AxiosResponse<T>
+  response: AxiosResponse<T>,
 ): string | undefined {
   if (response.status < 200 || response.status >= 300) {
     return response.statusText;

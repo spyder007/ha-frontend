@@ -17,7 +17,7 @@ import {
   ValueGetterParams,
 } from "ag-grid-community";
 
-export const ClientList: React.FunctionComponent<{}> = (): JSX.Element => {
+export const ClientList: React.FunctionComponent = (): JSX.Element => {
   const dispatch = useAppDispatch();
   const { items } = useSelector((state: RootState) => state.clientList);
 
