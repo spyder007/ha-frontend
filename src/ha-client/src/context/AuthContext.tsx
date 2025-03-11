@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { callBff } from "../utils/ApiFunctions";
 import * as bff from "../api/Bff";
+import { UserInfo } from "../context/UserInfo";
 
 interface IAuthContext {
   isLoading: boolean;
   isAuthenticated: boolean;
-  user?: bff.UserInfo;
+  user?: UserInfo;
   login?: () => void;
   logout?: () => void;
 }
@@ -17,16 +18,18 @@ export const AuthContext = React.createContext<IAuthContext>({
 
 export const AuthProvider = (props: { children: React.ReactNode }) => {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
-  const [user, setUser] = useState<bff.UserInfo | undefined>();
+  const [user, setUser] = useState<UserInfo | undefined>();
   const [isLoading, setIsLoading] = useState(false);
 
   const getUser = async () => {
-    const response = await callBff((baseUrl) => bff.AuthApiFactory(undefined, baseUrl).authGetUserGet());
+    const response = await callBff((baseUrl) => bff.MeEndpointApiFactory(undefined, baseUrl).authMeGet());
     const data = response.data;
 
-    setIsAuthenticated(data.isAuthenticated ?? false);
+    const authenticated = data.sub !== undefined;
+
+    setIsAuthenticated(authenticated ?? false);
     setIsLoading(false);
-    if (data.isAuthenticated) setUser(data);
+    if (authenticated) setUser(data);
   };
 
   useEffect(() => {

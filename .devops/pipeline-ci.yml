@@ -40,7 +40,7 @@ extends:
     dockerImageName: spyder007/ha-frontend
     dockerFilePath: Dockerfile
     containerRegistryName: github-spydersoft-docker
-    imageTagVariableName: frontend
+    imageTagVariableName: ha_frontend
     helmfileRepoName: helmfileconfig
     externalFeedCredentials: SpydersoftGithub
     #if it's a PR or build from main, don't update helmfile config or build/publish docker image
@@ -56,10 +56,10 @@ extends:
     bffUseSonarCloud: true
     bffSonarCloudOrganization: spydersoft-consulting
     bffSonarEndpointName: sonarcloud-spydersoft
-    bffSonarProjectName: spydersoft-consulting_techradar-bff
-    bffSonarProjectKey: spydersoft-consulting_techradar-bff
+    bffSonarProjectName: spyder007-ha-bff
+    bffSonarProjectKey: spyder007-ha-bff
     bffSonarExtraProperties: |
-      sonar.projectKey=spydersoft-consulting_techradar-bff
+      sonar.projectKey=spyder007-ha-bff
       sonar.sources=**/src/Spydersoft.Home.Frontend/
       sonar.tests=**/src/Spydersoft.Home.Frontend.Tests/
       sonar.exclusions=**/src/ha-client/**/*

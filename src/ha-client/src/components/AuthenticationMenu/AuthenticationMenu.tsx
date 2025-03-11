@@ -18,7 +18,7 @@ export const AuthenticationMenu = (): JSX.Element => {
           <Dropdown.Item id="authenticationButton" href="/profile">
             {user?.name}
           </Dropdown.Item>
-          <Dropdown.Item id="authenticationButton" href="/auth/logout">
+          <Dropdown.Item id="authenticationButton" href="/.auth/end-session">
             Log out
           </Dropdown.Item>
         </>
@@ -26,7 +26,7 @@ export const AuthenticationMenu = (): JSX.Element => {
     }
 
     return (
-      <Dropdown.Item id="authenticationButton" href="/auth/login">
+      <Dropdown.Item id="authenticationButton" href="/.auth/login">
         Login
       </Dropdown.Item>
     );
