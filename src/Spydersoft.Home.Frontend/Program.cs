@@ -1,18 +1,44 @@
 using Microsoft.IdentityModel.Logging;
 using Spydersoft.Platform.Hosting.Options;
 using Spydersoft.Platform.Hosting.StartupExtensions;
-using Spydersoft.Home.Frontend.Configuration;
-
+using OidcProxy.Net.OpenIdConnect;
+using OidcProxy.Net.ModuleInitializers;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.AddSpydersoftTelemetry(typeof(Program).Assembly);
+//builder.AddSpydersoftTelemetry(typeof(Program).Assembly);
 builder.AddSpydersoftSerilog(true);
 AppHealthCheckOptions healthCheckOptions = builder.AddSpydersoftHealthChecks();
 
-builder.Services.AddProxy(builder.Configuration);
+var oAuthConfig = builder.Configuration
+    .GetSection("Bff")
+    .Get<OidcProxyConfig>();
+
+if (oAuthConfig != null)
+{
+    builder.Services.AddOidcProxy(oAuthConfig);
+}
+else
+{
+    builder.Build().Logger.LogCritical("OidcProxy configuration not found.  Exiting");
+    return;
+}
+
+//var oAuthConfig = builder.Configuration
+//    .GetSection("Bff")
+//    .Get<Auth0ProxyConfig>();
+
+//if (oAuthConfig != null)
+//{
+//    builder.Services.AddAuth0Proxy(oAuthConfig);
+//}
+//else
+//{
+//    builder.Build().Logger.LogCritical("OidcProxy configuration not found.  Exiting");
+//    return;
+//}
+
 builder.Services.AddHealthChecks();
-builder.Services.AddAuthentication(builder.Configuration);
 builder.Services.AddAuthorizationBuilder()
     .AddPolicy("RequireAuthenticatedUserPolicy", policy =>
     {
@@ -48,12 +74,13 @@ if (app.Environment.IsDevelopment())
     IdentityModelEventSource.LogCompleteSecurityArtifact = true;
 }
 
-app.UseCustomForwardedHeaders();
 app.UseSpydersoftHealthChecks(healthCheckOptions)
     .UseAuthentication()
     .UseAuthorization()
     .UseCors(MyAllowSpecificOrigins);
 
+app.UseRouting();
+app.UseOidcProxy();
 
 app.MapControllers();
 app.MapReverseProxy();
