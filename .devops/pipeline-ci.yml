@@ -54,7 +54,7 @@ extends:
     bffExecuteTests: true
     bffTestProjects: "**/*.Tests/*.csproj"
     bffUseSonarCloud: true
-    bffSonarCloudOrganization: spydersoft-consulting
+    bffSonarCloudOrganization: Spyder007
     bffSonarEndpointName: sonarcloud-spydersoft
     bffSonarProjectName: spyder007-ha-bff
     bffSonarProjectKey: spyder007-ha-bff
@@ -66,7 +66,7 @@ extends:
       sonar.scanner.scanAll=false
 
     uiSonarEndpointName: sonarcloud-spydersoft
-    uiSonarCloudOrganization: spydersoft-consulting
+    uiSonarCloudOrganization: Spyder007
     uiExecuteSonar: true
     uiUseSonarCloud: true
     uiSonarConfigFile: react-sonar-project.properties
