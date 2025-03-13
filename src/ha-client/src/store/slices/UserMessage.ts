@@ -18,7 +18,7 @@ const userMessageSlice = createSlice({
     addMessage: (state, action: PayloadAction<UserMessage>): void => {
       const maybeExistingMessage = state.messages.find(
         ({ messageType, message }) =>
-          message.indexOf(action.payload.message) === 0 &&
+          message.startsWith(action.payload.message) === 0 &&
           action.payload.messageType === messageType,
       );
 
@@ -30,7 +30,7 @@ const userMessageSlice = createSlice({
     removeMessage: (state, action: PayloadAction<UserMessage>): void => {
       const index = state.messages.findIndex(
         ({ messageType, message }) =>
-          message.indexOf(action.payload.message) === 0 &&
+          message.startsWith(action.payload.message) &&
           action.payload.messageType === messageType,
       );
       if (index > -1) {

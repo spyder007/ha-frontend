@@ -68,12 +68,6 @@ export const ClientList: React.FunctionComponent = (): JSX.Element => {
       valueGetter: (params: ValueGetterParams): string => {
         return params.data.notes?.set_on_device ? "true" : "false";
       },
-      // cellRender: (params: any): any => {
-      //     if (params.value) {
-      //         return (<div>true</div>);
-      //     }
-      //     return (<div>false</div>);
-      // }
     },
     {
       headerName: "",

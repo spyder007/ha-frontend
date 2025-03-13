@@ -40,7 +40,7 @@ extends:
     dockerImageName: spyder007/ha-frontend
     dockerFilePath: Dockerfile
     containerRegistryName: github-spydersoft-docker
-    imageTagVariableName: ha_frontend
+    imageTagVariableName: ha_dashboard_frontend
     helmfileRepoName: helmfileconfig
     externalFeedCredentials: SpydersoftGithub
     #if it's a PR or build from main, don't update helmfile config or build/publish docker image

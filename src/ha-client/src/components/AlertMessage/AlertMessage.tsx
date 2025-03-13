@@ -27,7 +27,7 @@ export const AlertMessage = (props: Props): JSX.Element => {
     );
   };
 
-  let alertClassName = "alert-primary";
+  let alertClassName = "";
   let iconEl;
   switch (messageType) {
     case "warning": {

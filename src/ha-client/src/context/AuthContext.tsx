@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import { callBff } from "../utils/ApiFunctions";
 import * as bff from "../api/Bff";
 import { UserInfo } from "../context/UserInfo";
@@ -22,7 +22,9 @@ export const AuthProvider = (props: { children: React.ReactNode }) => {
   const [isLoading, setIsLoading] = useState(false);
 
   const getUser = async () => {
-    const response = await callBff((baseUrl) => bff.MeEndpointApiFactory(undefined, baseUrl).authMeGet());
+    const response = await callBff((baseUrl) =>
+      bff.MeEndpointApiFactory(undefined, baseUrl).authMeGet(),
+    );
     const data = response.data;
 
     const authenticated = data.sub !== undefined;
@@ -44,17 +46,16 @@ export const AuthProvider = (props: { children: React.ReactNode }) => {
     window.location.href = "/auth/logout";
   };
 
-  return (
-    <AuthContext.Provider
-      value={{
-        isAuthenticated,
-        user,
-        isLoading,
-        login,
-        logout,
-      }}
-    >
-      {props.children}
-    </AuthContext.Provider>
+  const value = useMemo(
+    () => ({
+      isAuthenticated,
+      user,
+      isLoading,
+      login,
+      logout,
+    }),
+    [],
   );
+
+  return <AuthContext.Provider value={value}>{props.children}</AuthContext.Provider>;
 };

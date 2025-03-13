@@ -10,9 +10,7 @@ export interface NavigationBarProperties {
   children?: React.ReactNode;
 }
 
-export const NavMenu: React.FunctionComponent<NavigationBarProperties> = (
-  props: NavigationBarProperties
-) => {
+export const NavMenu: React.FunctionComponent<NavigationBarProperties> = () => {
   return (
     <nav className="navbar navbar-light navbar-expand-lg bg-white border-bottom border-primary shadow-sm">
       <div className="container-fluid">
