@@ -1,4 +1,4 @@
-import React from "react";
+import { JSX } from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store/rootReducer";
 import { UserMessage } from "../../store/slices/UserMessage";

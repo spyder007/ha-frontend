@@ -1,6 +1,6 @@
 import { faExclamationCircle } from "@fortawesome/free-solid-svg-icons/faExclamationCircle";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React from "react";
+import { JSX } from "react";
 import { store } from "../../store/store";
 import { removeMessage } from "../../store/slices/UserMessage";
 import "./AlertMessage.scss";

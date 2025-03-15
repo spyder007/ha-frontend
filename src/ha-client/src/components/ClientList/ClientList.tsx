@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState, JSX, FunctionComponent } from "react";
 import { useSelector } from "react-redux";
 import { useAppDispatch } from "../../store/store";
 import { RootState } from "../../store/rootReducer";
@@ -17,7 +17,7 @@ import {
   ValueGetterParams,
 } from "ag-grid-community";
 
-export const ClientList: React.FunctionComponent = (): JSX.Element => {
+export const ClientList: FunctionComponent = (): JSX.Element => {
   const dispatch = useAppDispatch();
   const { items } = useSelector((state: RootState) => state.clientList);
 

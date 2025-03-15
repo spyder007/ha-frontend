@@ -1,4 +1,4 @@
-import React from "react";
+import { FunctionComponent, JSX} from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { IconDefinition } from "@fortawesome/fontawesome-svg-core";
 
@@ -9,7 +9,7 @@ interface IconCellButtonRendererProps {
 }
 
 
-export const IconCellButtonRenderer: React.FunctionComponent<IconCellButtonRendererProps> = (
+export const IconCellButtonRenderer: FunctionComponent<IconCellButtonRendererProps> = (
   props: IconCellButtonRendererProps
 ): JSX.Element => {
   const btnClickedHandler = (): void => {

@@ -2,6 +2,7 @@ import { Dropdown, Nav } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMicrosoft } from "@fortawesome/free-brands-svg-icons/faMicrosoft";
 import { useAuth } from "../../context";
+import { JSX } from "react";
 
 // Log In, Log Out button
 export const AuthenticationMenu = (): JSX.Element => {
