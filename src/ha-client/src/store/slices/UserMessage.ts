@@ -18,7 +18,7 @@ const userMessageSlice = createSlice({
     addMessage: (state, action: PayloadAction<UserMessage>): void => {
       const maybeExistingMessage = state.messages.find(
         ({ messageType, message }) =>
-          message.startsWith(action.payload.message) === 0 &&
+          message.startsWith(action.payload.message) &&
           action.payload.messageType === messageType,
       );
 

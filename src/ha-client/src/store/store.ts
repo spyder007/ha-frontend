@@ -15,6 +15,6 @@ type AppState = ReturnType<typeof rootReducer>;
 type TypedDispatch<T> = ThunkDispatch<T, unknown, UnknownAction>;
 export type AppDispatch = typeof store.dispatch;
 
-export type AppThunk = ThunkAction<void, RootState, null, UnknownAction>;
+export type AppThunk = ThunkAction<void, RootState, unknown, UnknownAction>;
 
 export const useAppDispatch = () => useDispatch<TypedDispatch<AppState>>();
